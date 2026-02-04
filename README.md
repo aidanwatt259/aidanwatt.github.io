@@ -9,5 +9,5 @@
 - 🏙️ LA Contractor Concentration Mapping
 - ☕ Traveler Chats Case Competition
 
-📫 Reach me on LinkedIn: [[LinkedIn](https://linkedin.com)](https://www.linkedin.com/in/aidan-dean-watt/)
+📫 Reach me on LinkedIn: [(https://linkedin.com)](https://www.linkedin.com/in/aidan-dean-watt/)
 
