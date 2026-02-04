@@ -1,43 +1,530 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aidan Watt | Portfolio</title>
+  <meta name="description" content="Aidan Watt — MSBA @ USC Marshall. Sports + Consumer Analytics. SQL, Python, Snowflake, Streamlit." />
+
+  <!-- Optional: nicer font (safe CDN). Remove if you want zero external deps. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      font-family: Arial;
-      max-width: 900px;
-      margin: auto;
-      padding: 50px;
-      background: #f8f8f8;
+    :root{
+      --bg: #070A12;
+      --panel: rgba(255,255,255,0.06);
+      --panel-2: rgba(255,255,255,0.08);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.68);
+      --muted-2: rgba(255,255,255,0.55);
+      --border: rgba(255,255,255,0.14);
+      --shadow: 0 20px 60px rgba(0,0,0,0.55);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.35);
+      --accent: #7C3AED;   /* purple */
+      --accent2: #22D3EE;  /* cyan */
+      --accent3: #F59E0B;  /* amber */
+      --radius: 18px;
     }
-    h1 { font-size: 48px; }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+    *{ box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 700px at 20% 10%, rgba(124,58,237,0.25), transparent 55%),
+                  radial-gradient(900px 600px at 85% 15%, rgba(34,211,238,0.20), transparent 55%),
+                  radial-gradient(900px 700px at 50% 95%, rgba(245,158,11,0.12), transparent 55%),
+                  var(--bg);
+      overflow-x: hidden;
     }
-    a { text-decoration: none; color: blue; }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible, button:focus-visible { outline: 2px solid rgba(34,211,238,0.7); outline-offset: 3px; border-radius: 12px; }
+
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 26px 20px 80px;
+    }
+
+    /* Top nav */
+    .nav{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-soft);
+      position: sticky;
+      top: 14px;
+      z-index: 10;
+    }
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 180px;
+    }
+    .dot{
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 6px rgba(124,58,237,0.14);
+    }
+    .brand span{
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .nav-links{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.22); }
+    .btn.primary{
+      border: none;
+      background: linear-gradient(90deg, rgba(124,58,237,0.95), rgba(34,211,238,0.9));
+      box-shadow: 0 14px 40px rgba(124,58,237,0.22);
+    }
+    .btn.primary:hover{ transform: translateY(-2px); filter: brightness(1.02); }
+    .btn .icon{
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      opacity: 0.95;
+    }
+
+    /* Hero */
+    .hero{
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; }
+      .nav{ position: relative; top: auto; }
+      .brand{ min-width: auto; }
+    }
+
+    .panel{
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before{
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(800px 300px at 15% 10%, rgba(124,58,237,0.28), transparent 60%),
+                  radial-gradient(600px 280px at 90% 20%, rgba(34,211,238,0.20), transparent 55%);
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    .hero-main{ padding: 34px; }
+    .hero-main *{ position: relative; } /* keep above gradient */
+
+    .kicker{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.05);
+      border-radius: 999px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.01em;
+    }
+    .kicker b{
+      color: rgba(255,255,255,0.9);
+      font-weight: 700;
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1.03;
+      letter-spacing: -0.04em;
+      font-weight: 800;
+    }
+    .sub{
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 60ch;
+    }
+
+    .hero-cta{
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    /* Right hero card */
+    .hero-side{
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 22px;
+    }
+    .stat{
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 14px 14px;
+    }
+    .stat .label{
+      color: var(--muted-2);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .stat .value{
+      margin-top: 6px;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .chips{
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .chip{
+      font-size: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+    }
+
+    /* Sections */
+    .section{
+      margin-top: 34px;
+    }
+    .section h2{
+      margin: 0 0 14px;
+      font-size: 18px;
+      color: rgba(255,255,255,0.86);
+      letter-spacing: -0.01em;
+      font-weight: 800;
+    }
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .card{
+      grid-column: span 6;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.05);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow-soft);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.24);
+      background: rgba(255,255,255,0.07);
+    }
+    @media (max-width: 900px){
+      .card{ grid-column: span 12; }
+    }
+
+    .card .tag{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.78);
+      margin-bottom: 10px;
+    }
+    .pill{
+      width: 10px; height: 10px; border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 5px rgba(34,211,238,0.10);
+    }
+
+    .card h3{
+      margin: 0 0 8px;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+    .card p{
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .meta{
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      color: var(--muted-2);
+      font-size: 12px;
+    }
+    .meta span{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .card .actions{
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer{
+      margin-top: 46px;
+      padding: 18px 0 0;
+      color: var(--muted-2);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      flex-wrap: wrap;
+    }
+
+    /* Small entrance animation */
+    @media (prefers-reduced-motion: no-preference){
+      .panel, .card, .nav{
+        animation: floatIn .5s ease both;
+      }
+      .card:nth-child(2){ animation-delay: .05s; }
+      .card:nth-child(3){ animation-delay: .10s; }
+      .card:nth-child(4){ animation-delay: .15s; }
+
+      @keyframes floatIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    }
   </style>
 </head>
 
 <body>
-  <h1>Aidan Watt</h1>
-  <p>MSBA Candidate @ USC Marshall | Sports + Consumer Analytics | SQL + Python</p>
+  <div class="wrap">
 
-  <p>
-    <a href="https://linkedin.com/in/aidan-dean-watt">LinkedIn</a> |
-    <a href="https://github.com/aidanwatt259">GitHub</a>
-  </p>
+    <!-- NAV -->
+    <div class="nav">
+      <div class="brand">
+        <div class="dot" aria-hidden="true"></div>
+        <span>Aidan Watt</span>
+      </div>
 
-  <h2>Featured Projects</h2>
+      <div class="nav-links">
+        <!-- Update these links -->
+        <a class="btn" href="https://linkedin.com/in/aidan-dean-watt" target="_blank" rel="noopener">
+          <span class="icon" aria-hidden="true">🔗</span> LinkedIn
+        </a>
+        <a class="btn" href="https://github.com/aidanwatt259" target="_blank" rel="noopener">
+          <span class="icon" aria-hidden="true">💻</span> GitHub
+        </a>
+        <!-- Optional: link to resume PDF in your repo, e.g. /assets/Aidan_Watt_Resume.pdf -->
+        <a class="btn primary" href="#projects">
+          <span class="icon" aria-hidden="true">✨</span> View Projects
+        </a>
+      </div>
+    </div>
 
-  <div class="card">
-    <h3>Austin Reaves Regression Dashboard</h3>
-    <p>Streamlit + Snowflake analytics dashboard quantifying player impact.</p>
-    <a href="https://github.com/aidanwatt259/Austin-Reaves-Regression">View Repo</a>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="panel hero-main">
+        <div class="kicker">🎓 <b>USC Marshall</b> MSBA Candidate • Los Angeles</div>
+        <h1>Building analytics that turn data into decisions.</h1>
+        <p class="sub">
+          I’m focused on <b>Sports Analytics</b>, <b>Consumer & Retail Intelligence</b>, and <b>BI dashboards</b> —
+          using SQL, Python, and modern data tools to deliver clear, actionable insights.
+        </p>
+
+        <div class="hero-cta">
+          <!-- Update these links -->
+          <a class="btn primary" href="#projects">Explore Featured Work</a>
+          <a class="btn" href="mailto:aidanwatties235@gmail.com">Email Me</a>
+          <a class="btn" href="https://github.com/aidanwatt259?tab=repositories" target="_blank" rel="noopener">All Repos</a>
+        </div>
+      </div>
+
+      <aside class="panel hero-side">
+        <div class="stat">
+          <div class="label">Focus Areas</div>
+          <div class="value">Sports • Consumer Goods • BI</div>
+          <div class="chips">
+            <span class="chip">Regression</span>
+            <span class="chip">Forecasting</span>
+            <span class="chip">Dashboards</span>
+            <span class="chip">Experimentation</span>
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="label">Tool Stack</div>
+          <div class="value">SQL • Python • Snowflake</div>
+          <div class="chips">
+            <span class="chip">Streamlit</span>
+            <span class="chip">Pandas</span>
+            <span class="chip">scikit-learn</span>
+            <span class="chip">Tableau / Power BI</span>
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="label">Open to</div>
+          <div class="value">Summer 2026 Analytics Internships</div>
+          <div class="chips">
+            <span class="chip">Los Angeles</span>
+            <span class="chip">Sports</span>
+            <span class="chip">CPG / Retail</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <h2>Featured Projects</h2>
+
+      <div class="grid">
+        <article class="card">
+          <div class="tag"><span class="pill"></span> Sports Analytics</div>
+          <h3>Austin Reaves Regression Dashboard</h3>
+          <p>Streamlit + Snowflake dashboard quantifying player impact with engineered metrics and regression modeling.</p>
+
+          <div class="meta">
+            <span>Python</span><span>SQL</span><span>Snowflake</span><span>Streamlit</span>
+          </div>
+
+          <div class="actions">
+            <!-- Update these links -->
+            <a class="btn primary" href="https://github.com/aidanwatt259/austin-reaves-dashboard" target="_blank" rel="noopener">View Repo</a>
+            <a class="btn" href="#" target="_blank" rel="noopener">Live Demo</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="tag"><span class="pill"></span> Business Intelligence</div>
+          <h3>LA Contractor Concentration Mapping</h3>
+          <p>Interactive mapping of contractor concentration using LA permit data and census-tract analysis.</p>
+
+          <div class="meta">
+            <span>Snowflake</span><span>SQL</span><span>Mapping</span><span>Streamlit</span>
+          </div>
+
+          <div class="actions">
+            <!-- Update these links -->
+            <a class="btn primary" href="https://github.com/aidanwatt259/la-permit-dashboard" target="_blank" rel="noopener">View Repo</a>
+            <a class="btn" href="#" target="_blank" rel="noopener">Dashboard</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="tag"><span class="pill"></span> Product & Analytics</div>
+          <h3>Traveler Chats (USC Case Competition)</h3>
+          <p>AI-driven coffee-chat matching product concept — placed <b>4th out of 36</b> teams at USC Marshall.</p>
+
+          <div class="meta">
+            <span>Product Analytics</span><span>Storytelling</span><span>UX</span>
+          </div>
+
+          <div class="actions">
+            <!-- Update these links -->
+            <a class="btn primary" href="#" target="_blank" rel="noopener">Slide Deck</a>
+            <a class="btn" href="#" target="_blank" rel="noopener">Summary</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="tag"><span class="pill"></span> Simulation & Forecasting</div>
+          <h3>Promotion / Scenario Modeling</h3>
+          <p>Monte Carlo and scenario analysis projects for decision-making under uncertainty (marketing, promotions, and NPV).</p>
+
+          <div class="meta">
+            <span>Python</span><span>Excel</span><span>Simulation</span><span>NPV</span>
+          </div>
+
+          <div class="actions">
+            <!-- Update these links -->
+            <a class="btn primary" href="https://github.com/aidanwatt259?tab=repositories" target="_blank" rel="noopener">See Repos</a>
+            <a class="btn" href="#contact">Contact</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT / FOOTER -->
+    <section class="section" id="contact">
+      <h2>Contact</h2>
+      <div class="panel" style="padding: 22px;">
+        <p class="sub" style="margin: 0;">
+          Want to chat analytics, dashboards, or internships? Email me at
+          <a class="btn" style="margin-left:10px;" href="mailto:YOUR_EMAIL@example.com">YOUR_EMAIL@example.com</a>
+        </p>
+      </div>
+
+      <div class="footer">
+        <div>© <span id="year"></span> Aidan Watt</div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn" href="https://linkedin.com/in/aidan-dean-watt" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn" href="https://github.com/aidanwatt259" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </section>
+
   </div>
 
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
+
