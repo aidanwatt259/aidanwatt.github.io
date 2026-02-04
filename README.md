@@ -1,2 +1,13 @@
-# aidanwatt.github.io
-Website showcasing who I am, my projects and background
+# Hi, I'm Aidan 👋
+
+🎓 MSBA Candidate @ USC Marshall  
+📊 Interested in Sports Analytics, BI, and Consumer Forecasting  
+💻 Skills: Python, SQL, Snowflake, Streamlit, Tableau  
+
+## Featured Projects
+- 🏀 Austin Reaves Impact Dashboard
+- 🏙️ LA Contractor Concentration Mapping
+- ☕ Traveler Chats Case Competition
+
+📫 Reach me on LinkedIn: [LinkedIn](https://linkedin.com)
+
